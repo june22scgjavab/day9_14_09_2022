@@ -711,7 +711,21 @@ public class MyData extends Data {
 }
 ----------------------------------------------------------------------------------------------------------------------------
 
+package com.infosys.finaldemo;
 
+public class FinalClass {
+private final int I=10;
+
+public FinalClass(int i) {
+	I=i;
+}
+
+public FinalClass() {
+	I=10;
+}
+}
+// Compilation error , the final variable is already initialised. So we cannot reinitialise with the constructors.
+------------------------------------------------------------------------------------------------------------------------------
 
 
 
