@@ -1,0 +1,581 @@
+
+Whenever we discuss object oriented programming:
+
+class
+object
+Features of Object Oriented Programming:
+* Encapsulation==> encapsulation achieved through access modifiers like private and public.
+                   The members which we dont want to access outside the class, we declare them
+                   as private and the members which we want to be accessed outside the class,
+                   we declare them as public.
+* Inheritence====> Reusability of code. So we dont land up in writing the same implementation
+                   again and again. For inheritence we use the keyword extends.
+                   We dont have the concept of multiple inheritence in Java through classes.
+                   So we can achieve as so.
+                   class A {} class B{} we cannot write class C extends A,B{}
+* Polymorphism====> We have static/compile time polymorphism and runtime polymorphism.
+                    static one is achieved through method overloading or constructor overloading.
+                    runtime polymorphism is achieved through method overriding.
+* Abstraction=====> Hiding the complexity of implementation from other part of the code and just
+                    keeping the basic bare method declaration. So abstracting is achieved through Abstract
+                    classes and interface.
+------------------------------------------------------------------------------------------------------------------------------------
+public class Demo{
+
+     public void add(int a,int b){}
+     public int add(int a,int b,int c){}
+     // public int add(int x,int y){} =====> we cannot write both methods means the method declared in line 1 and 3 because
+     // these two are different just with the return type. But return type only cannot be a deciding factor to decide whether 
+     // methods are overloaded or not.
+    public void add(float x,float y,float z){}
+    public float add(float a,float b){}
+}
+// So see the signature for the methods which includes the method name and the number of parameters and datatypes of the parameter.
+----------------------------------------------------------------------------------------------------------------------------------
+Method overriding := We should have two classes with Parent Child relationship.
+* The method name will be same.
+* Return type will be same or covariant type.
+* The number of parameters and datatypes of parameter should be same.
+
+  public class Base {
+
+    
+    public int add(int a,int b){
+      return a+b;
+   }
+
+ }
+
+
+ public class Derived extends Base {
+   public int add(int a,int b){
+    return a+b;
+   }
+ }
+
+   Base base=new Base();
+   int result=base.add(1,2); // Will invoke add method of the Parent class
+   Derived derived=new Derived();
+   result=derived.add(2,3); // It will invoke the add method of the Child class
+   Base base1=new Derived();  // Reference is of Base type and object is of sub-class type. This is Type conversion in reference type
+   result=base1.add(9,9); //It will invoke the add method of the Child class because reference is storing the reference for the  
+                          // child class object.
+
+-----------------------------------------------------------------------------------------------------------------
+
+  public class Base {
+
+    
+    public static int add(int a,int b){
+      return a+b;
+   }
+
+ }
+
+
+ public class Derived extends Base {
+   public static int add(int a,int b){
+    return a+b;
+   }
+ }
+
+
+
+ Base base1=new Derived();  
+   result=base1.add(9,9);   // As the add method is static so it is dependant on the object creation and can be related with class.
+       // Here it will check what is type of reference type. The type of Reference type is of Base. So it will invoke the add
+       // method of the Base class. 
+   result=Base.add(9,9);
+
+STATIC METHODS CANNOT BE OVERRIDDEN.
+
+------------------------------------------------------------------------------------------------------------------
+
+
+  public class Base {
+
+    
+    public int add(int a,int b){
+      return a+b;
+   }
+
+ }
+
+
+ public class Derived extends Base {
+   public static int add(int a,int b){
+    return a+b;
+   }
+ }
+
+The above way of writing the code is incorrect will show compilation error. Either we keep both ( overridden and overriding methods)
+non-static or static.
+
+  public class Base {
+
+    
+    public static int add(int a,int b){
+      return a+b;
+   }
+
+ }
+
+
+ public class Derived extends Base {
+   public  int add(int a,int b){
+    return a+b;
+   }
+ }
+
+So the above code is incorrect.
+---------------------------------------------------------------------------------------------------------------------------------
+The student are writing Test and The test can be of Online or Offline. We need to write the code in such a way that it is
+much flexible to implement
+
+
+  public class OnlineTest {
+  
+   public void writeTest(){
+    System.out.println("The test will be online");
+   }
+  } 
+ 
+    
+ 
+  public class OfflineTest {
+  public void writeTest(){
+   System.out.println("The Test will be offline");
+  }
+  
+ }
+
+  public class MockTest {
+  public void writeTest(){
+   System.out.println("The Mock test");
+  }
+ }
+  
+
+ public class Student {
+  private int roll;
+  private String name;
+
+  public void writeTest(OnlineTest ot){
+   ot.writeTest();
+  }
+
+  public void writeTest(OfflineTest oft){
+  oft.writeTest();
+  }
+
+  public void writeTest(MockTest mt){
+   mt.writeTest();
+  }
+
+ }
+
+
+ public class StudentMain {
+   public static void main(String args[]){
+    Student student=new Student();
+    OnlineTest ot=new OnlineTest();
+    //OfflineTest oft=new OfflineTest():
+    student.writeTest(ot);
+   }
+}
+-------------------------------------------------------------------------------------------------------------   
+
+ public class Test {
+  public void writeTest(){
+    System.out.println("Writing Test");
+   }
+ 
+ }
+
+
+
+ public class OnlineTest extends Test{
+  
+   public void writeTest(){
+    System.out.println("The test will be online");
+   }
+  } 
+ 
+    
+ 
+  public class OfflineTest extends Test{
+  public void writeTest(){
+   System.out.println("The Test will be offline");
+  }
+  
+ }
+
+  public class MockTest extends Test{
+  public void writeTest(){
+   System.out.println("The Mock test");
+  }
+ }
+
+ public class OralTest extends Test{
+public void writeTest(){
+   System.out.println("The Oral test");
+  }
+ }
+  
+ public class Student {
+  private int roll;
+  private String name;
+
+  public void writeTest(Test test){
+   test.writeTest();
+  }
+
+
+
+ }
+
+
+public class StudentMain {
+   public static void main(String args[]){
+    Student student=new Student();
+    Test test=null;
+     test=new OnlineTest();
+    //OfflineTest oft=new OfflineTest():
+    student.writeTest(test);  //The test will be online
+    test=new MockTest();
+    student.writeTest(test); // The mock test
+    test=new OralTest();
+    student.writeTest(test);  //The Oral test
+   }
+}
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+public class Student {}
+
+The above class is extending the Object class. We dont have to write.It is implicit.
+
+public class Student extends Object {}  // We dont write this.
+
+
+ public class Person {}
+ public class Student extends Person {}
+ public class SchoolStudent extends Student {}
+
+ Person class is implicitly extending Object class and Student and SchoolStudent is inheriting the Object class indirectly.
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+package com.infosys.object.demo1;
+public class Food {
+
+	private String foodName;
+	private String cuisine;
+	private String foodType;
+	private int quantityAvailable;
+	private double unitPrice;
+
+	public String getFoodName() {
+		return foodName;
+	}
+
+	public void setFoodName(String foodName) {
+		this.foodName = foodName;
+	}
+
+	public String getCuisine() {
+		return cuisine;
+	}
+
+	public void setCuisine(String cuisine) {
+		this.cuisine = cuisine;
+	}
+
+	public String getFoodType() {
+		return foodType;
+	}
+
+	public void setFoodType(String foodType) {
+		this.foodType = foodType;
+	}
+
+	public int getQuantityAvailable() {
+		return quantityAvailable;
+	}
+
+	public void setQuantityAvailable(int quantityAvailable) {
+		this.quantityAvailable = quantityAvailable;
+	}
+
+	public double getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(double unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+}
+
+
+
+package com.infosys.object.demo1;
+
+public class Tester {
+
+	public static void main(String[] args) {
+		Food foodOne = new Food();
+		foodOne.setFoodName("Sandwich");
+		foodOne.setCuisine("Continental");
+		foodOne.setFoodType("Veg");
+		foodOne.setQuantityAvailable(200);
+		foodOne.setUnitPrice(10);
+
+		Food foodTwo = new Food();
+		foodTwo.setFoodName("Sandwich");
+		foodTwo.setCuisine("Continental");
+		foodTwo.setFoodType("Veg");
+		foodTwo.setQuantityAvailable(200);
+		foodTwo.setUnitPrice(10);
+		if (foodOne.equals(foodTwo)) {
+
+			System.out.println("The food objects are same!");
+		} else {
+			System.out.println("The food objects are different!");
+		}
+		if (foodOne == foodTwo) {
+			System.out.println("The food objects are same!");
+		} else {
+			System.out.println("The food objects are different!");
+		}
+                System.out.println(foodOne.hashCode());
+		System.out.println(foodTwo.hashCode());
+                System.out.println(foodOne.toString());
+		System.out.println(foodTwo.toString());
+	}
+}
+Output of the above code
+/*The food objects are different!
+The food objects are different!
+1579572132
+359023572
+com.infosys.object.demo1.Food@5e265ba4
+com.infosys.object.demo1.Food@156643d4
+
+ * 
+ * 
+ */
+
+
+[ The equals method written in Object class is behaving same as of == because equals method of the object class checks for the address and
+  not comparing the content of the objects . We are not getting the desired behaviour of equals method where it should return true if both the
+object's attributes are having the same value.]
+
+If two objects are equal according to the equals() method, hashCode() must produce the same integer value for the two objects
+--------------------------------------------------------------------------------------------------------------------------------------
+package com.infosys.object.demo2;
+
+import java.util.Objects;
+
+public class Food {
+
+	private String foodName;
+	private String cuisine;
+	private String foodType;
+	private int quantityAvailable;
+	private double unitPrice;
+
+	public String getFoodName() {
+		return foodName;
+	}
+
+	public void setFoodName(String foodName) {
+		this.foodName = foodName;
+	}
+
+	public String getCuisine() {
+		return cuisine;
+	}
+
+	public void setCuisine(String cuisine) {
+		this.cuisine = cuisine;
+	}
+
+	public String getFoodType() {
+		return foodType;
+	}
+
+	public void setFoodType(String foodType) {
+		this.foodType = foodType;
+	}
+
+	public int getQuantityAvailable() {
+		return quantityAvailable;
+	}
+
+	public void setQuantityAvailable(int quantityAvailable) {
+		this.quantityAvailable = quantityAvailable;
+	}
+
+	public double getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(double unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cuisine, foodName, foodType, quantityAvailable, unitPrice);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Food other = (Food) obj;
+		return Objects.equals(cuisine, other.cuisine) && Objects.equals(foodName, other.foodName)
+				&& Objects.equals(foodType, other.foodType) && quantityAvailable == other.quantityAvailable
+				&& Double.doubleToLongBits(unitPrice) == Double.doubleToLongBits(other.unitPrice);
+	}
+
+	@Override
+	public String toString() {
+		return "Food [foodName=" + foodName + ", cuisine=" + cuisine + ", foodType=" + foodType + ", quantityAvailable="
+				+ quantityAvailable + ", unitPrice=" + unitPrice + "]";
+	}
+	
+	
+}
+
+
+
+
+public class Tester {
+
+	public static void main(String[] args) {
+		Food foodOne = new Food();
+		foodOne.setFoodName("Sandwich");
+		foodOne.setCuisine("Continental");
+		foodOne.setFoodType("Veg");
+		foodOne.setQuantityAvailable(200);
+		foodOne.setUnitPrice(10);
+
+		Food foodTwo = new Food();
+		foodTwo.setFoodName("Sandwich");
+		foodTwo.setCuisine("Continental");
+		foodTwo.setFoodType("Veg");
+		foodTwo.setQuantityAvailable(200);
+		foodTwo.setUnitPrice(10);
+		if (foodOne.equals(foodTwo)) {
+
+			System.out.println("The food objects are same!");
+		} else {
+			System.out.println("The food objects are different!");
+		}
+		if (foodOne == foodTwo) {
+			System.out.println("The food objects are same!");
+		} else {
+			System.out.println("The food objects are different!");
+		}
+		System.out.println(foodOne.hashCode());
+		System.out.println(foodTwo.hashCode());
+		System.out.println(foodOne.toString());
+		System.out.println(foodTwo.toString());
+	}
+	  
+	  
+	
+}
+
+Output
+
+/*
+ * The food objects are same!
+The food objects are different!
+-247800749
+-247800749
+Food [foodName=Sandwich, cuisine=Continental, foodType=Veg, quantityAvailable=200, unitPrice=10.0]
+Food [foodName=Sandwich, cuisine=Continental, foodType=Veg, quantityAvailable=200, unitPrice=10.0]
+
+ */
+
+
+
+@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Food other = (Food) obj;
+		return Objects.equals(cuisine, other.cuisine) && Objects.equals(foodName, other.foodName)
+				&& Objects.equals(foodType, other.foodType) && quantityAvailable == other.quantityAvailable
+				&& Double.doubleToLongBits(unitPrice) == Double.doubleToLongBits(other.unitPrice);
+	}
+
+
+public class Student{
+  private int roll;
+  private String name;
+ 
+ // setter/getters
+
+}
+
+
+  Student student1=new Student(1,"Ram");
+  Student student2=new Student(1,"Ram");
+  
+// When we are not overriding the equals method it is returning false though the data are same.
+
+ System.out.println(student1.equals(student2));  // false as address is compared
+--------------------------------------------------------------------------------------------------------------------
+System.out.println(student1.equals(student2)); 
+
+Object obj=student2; // Object class is the base class / super class so in the reference variable of Object class
+                    // we can put the reference of the Subclass Student.
+ 
+1. Student student=new Student(1,"Ram");
+   Student student2=student;
+   student.equals(student2);  //true
+
+2. Student student=new Student(1,"Ram");
+   Student student2=null;
+   student.equals(student2);  //false
+
+3.Student student1=new Student(1,"Ram",80);
+  StudentDetails student2=new StudentDetails(1,"Ram",80);
+  student1.equals(student2);  //false
+
+4a. Student student1=new Student(1,"Ram");
+   Student student2=new Student(1,"Ram");
+
+4b. Student student1=new Student(1,"Ram");
+   Student student2=new Student(2,"Ram");
+
+@Override
+	public boolean equals(Object obj) {
+		if (this == obj)    // 1
+			return true;
+		if (obj == null)     //2
+			return false;
+		if (getClass() != obj.getClass()) //3
+			return false;
+		//Student other = (Student) obj;  // Why typecasting?
+                // why we cannot write as below and why we have to typecast
+		//return Objects.equals(rollNo == obj.rollNo) && Objects.equals(name, obj.name)
+				&& marks=obj.marks);
+               Student other = (Student) obj;    //4
+               return Objects.equals(rollNo == other.rollNo) && Objects.equals(name, other.name)
+				&& marks=other.marks);
+	}
+
+-------------------------------------------------------------------------------------------------------------------
+ 
+
