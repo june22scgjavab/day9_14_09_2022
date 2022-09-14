@@ -577,7 +577,7 @@ Object obj=student2; // Object class is the base class / super class so in the r
 	}
 
 -------------------------------------------------------------------------------------------------------------------
- WE HAVE TO REMEMBER THAT IF HASHCODE VALUE IS SAME , IT CANNOT BE SAID THAT OBJECT WILL BE SAME. BUT IF TWO OBJECTS ARE
+ WE HAVE TO REMEMBER THAT IF HASHCODE VALUE IS SAME , IT CANNOT BE SAID THAT OBJECTS ARE SAME. BUT IF TWO OBJECTS ARE
 SAME , HASHCODE WILL BE SAME.
 
 package com.infosys.object.demo3;
@@ -670,3 +670,48 @@ Output
 
  */
 ----------------------------------------------------------------------------------------------------------------------
+If a final variable is not initialized during declaration, it is known as blank final variable. We can initialize a blank final variable only in the constructor, else there will be a compilation error. So, if you are marking a variable as final, it can be initialized only once either while declaring or in the constructor of the class.
+-----------------------------------------------------------------------------------------------------------------------------
+If a variable is declared as final we cannot re-initialise
+
+  public class Number{
+   private final int NUM=10;
+  }
+
+
+  public class Number{
+   private final int NUM;
+   public Number(){
+     NUM=10;
+   }
+ }
+
+The final variables once initialised cannot be re-intialised
+A local variable can also be final.
+
+ public class Radius{
+   public void calculate{
+    final float PIE=3.14F;
+   }
+}
+
+--------------------------------------------------------------------------------------------------------------------------
+public final class Data{}
+OR
+final public class Data{}
+public class MyData extends Data{} // We cannot write this as final class cannot be sub-classed.
+
+
+public class Data{
+  final public void display(){}
+}
+
+public class MyData extends Data {
+  public void display(){} // We cannot override the final method
+}
+----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
