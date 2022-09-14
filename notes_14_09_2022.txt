@@ -577,5 +577,90 @@ Object obj=student2; // Object class is the base class / super class so in the r
 	}
 
 -------------------------------------------------------------------------------------------------------------------
- 
+ WE HAVE TO REMEMBER THAT IF HASHCODE VALUE IS SAME , IT CANNOT BE SAID THAT OBJECT WILL BE SAME. BUT IF TWO OBJECTS ARE
+SAME , HASHCODE WILL BE SAME.
+
+package com.infosys.object.demo3;
+
+import java.util.Objects;
+
+public class Student1 {
+private int roll;
+private String name;
+private int marks;
+public Student1(int roll, String name, int marks) {
+	super();
+	this.roll = roll;
+	this.name = name;
+	this.marks = marks;
+}
+@Override
+public int hashCode() {
+	return Objects.hash(marks, name, roll);
+}
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Student1 other = (Student1) obj;
+	return marks == other.marks && Objects.equals(name, other.name) && roll == other.roll;
+}
+
+}
+
+
+package com.infosys.object.demo3;
+
+import java.util.Objects;
+
+public class Student2 {
+private int roll;
+private String name;
+private int marks;
+public Student2(int roll, String name, int marks) {
+	super();
+	this.roll = roll;
+	this.name = name;
+	this.marks = marks;
+}
+@Override
+public int hashCode() {
+	return Objects.hash(marks, name, roll);
+}
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Student2 other = (Student2) obj;
+	return marks == other.marks && Objects.equals(name, other.name) && roll == other.roll;
+}
+
+}
+
+
+package com.infosys.object.demo3;
+// It is not true that if two objects are
+// having same hashCode value , then they are
+// equal ... We can see in the demo code
+public class Main {
+
+	public static void main(String[] args) {
+	Student1 student1=new Student1(1,"Ram",80);
+	Student2 student2=new Student2(1,"Ram",80);
+	System.out.println(student1.hashCode());
+	System.out.println(student2.hashCode());
+	System.out.println(student1.equals(student2));
+	}
+
+}
+
+
 
