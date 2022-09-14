@@ -726,6 +726,133 @@ public FinalClass() {
 }
 // Compilation error , the final variable is already initialised. So we cannot reinitialise with the constructors.
 ------------------------------------------------------------------------------------------------------------------------------
+Q Why we require the base class reference and Derived class object?
+A Many time we need to write methods which can be used in multiple scenarios.
+public class Test {}
+
+public class OnlineTest extends Test {
+  public void writeTest(){
+    System.out.println("Online");
+  }
+}
+public class OfflineTest extends Test {
+System.out.println("Offline");
+}
+
+public class Student {
+
+  public void writeTest(Test test){
+    test.writeTest();
+  }
+}
+
+public class Main {
+   public static void main(String args[]){
+      Student student=new Student();
+      Test test=new OnlineTest();
+      student.writeTest(test);    // This code will show compilation error because currently in Test class we dont have 
+                                  // writeTest method
+      
+  }
+}
+
+-----------------------------------------------------------------------------------------------------------------------
+
+public class Test {}
+
+public class OnlineTest extends Test {
+  public void writeTest(){
+    System.out.println("Online");
+  }
+}
+public class OfflineTest extends Test {
+System.out.println("Offline");
+}
+
+public class Student {
+
+  public void writeTest(Test test){
+   OnlineTest ot=(OnlineTest)test; 
+   ot.writeTest();
+  }
+}
+
+public class Main {
+   public static void main(String args[]){
+      Student student=new Student();
+      Test test=new OnlineTest();
+      student.writeTest(test);    // This code will show compilation error because currently in Test class we dont have 
+                                  // writeTest method
+      
+  }
+}
+-------------------------------------------------------------------------------------------------------------------------
+public class Test {
+
+public void writeTest(){
+  System.out.println("Test");
+}
+
+}
+
+public class OnlineTest extends Test {
+  public void writeTest(){
+    System.out.println("Online");
+  }
+}
+public class OfflineTest extends Test {
+System.out.println("Offline");
+}
+
+public class Student {
+
+  public void writeTest(Test test){
+    test.writeTest();
+  }
+}
+
+public class Main {
+   public static void main(String args[]){
+      Student student=new Student();
+      Test test=new OnlineTest();
+      student.writeTest(test);   
+                                  
+      
+  }
+}
+
+-----------------------------------------------------------------------------------------------------------------
+
+public abstract class Test {
+
+public abstract void writeTest();
+
+}
+
+public class OnlineTest extends Test { // So abstract classes are inherited
+  public void writeTest(){      // The abstract method should be overridden
+    System.out.println("Online");
+  }
+}
+public class OfflineTest extends Test {
+System.out.println("Offline");
+}
+
+public class Student {
+
+  public void writeTest(Test test){
+    test.writeTest();
+  }
+}
 
 
-
+public class Main {
+   public static void main(String args[]){
+      Student student=new Student();
+      Test test=new OnlineTest();
+      student.writeTest(test);   Online
+                                  
+      
+  }
+}
+---------------------------------------------------------------------------------------------------------------------------------
